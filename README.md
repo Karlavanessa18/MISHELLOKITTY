@@ -1,59 +1,129 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# My Hello Kitty
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Tienda de demostración en Laravel para mostrar merch inspirada en Hello Kitty. Incluye catálogo, páginas de detalle, carrito visual y una base de datos MySQL con productos de ejemplo.
 
-## About Laravel
+> Esta aplicación es una demostración académica: el carrito no procesa pagos reales ni representa una tienda oficial.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Qué incluye el repositorio
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Catálogo y detalle de productos en Laravel.
+- Migración de la tabla `products`.
+- Seeder con 6 productos de ejemplo.
+- Configuración de ejemplo para MySQL en `.env.example`.
+- Script SQL para crear la base de datos: `database/create_my_hello_kitty.sql`.
+- Estilos y JavaScript listos en `public/css/store.css` y `public/js/store.js`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+No se suben archivos personales o generados localmente: `.env`, `vendor`, `node_modules`, registros y la base SQLite temporal están excluidos mediante `.gitignore`.
 
-## Learning Laravel
+## Requisitos en otra computadora
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- [Git](https://git-scm.com/)
+- PHP **8.2 o superior** con `pdo_mysql` habilitado
+- [Composer](https://getcomposer.org/)
+- MySQL o MariaDB. En Windows se puede usar XAMPP o Laragon.
+- DBeaver (opcional, para administrar y consultar la base de datos)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Node.js/NPM no es necesario para abrir esta versión de la tienda, porque sus estilos y scripts ya están en la carpeta `public`.
 
-## Laravel Sponsors
+## Instalación desde GitHub
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Abre PowerShell o una terminal y ejecuta:
 
-### Premium Partners
+```powershell
+git clone https://github.com/Karlavanessa18/MISHELLOKITTY.git
+Set-Location MISHELLOKITTY
+Copy-Item .env.example .env
+composer install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+En macOS o Linux, reemplaza el tercer comando por:
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Crear la base de datos con DBeaver
 
-## Code of Conduct
+Primero inicia MySQL/MariaDB desde XAMPP, Laragon o el servicio que uses. Luego, en DBeaver:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Pulsa **Nueva conexión de base de datos** y elige **MySQL**.
+2. Usa estos datos (son los mismos de `.env`):
 
-## Security Vulnerabilities
+   | Campo | Valor |
+   | --- | --- |
+   | Host | `127.0.0.1` |
+   | Puerto | `3306` |
+   | Base de datos | `my_hello_kitty` |
+   | Usuario | `root` |
+   | Contraseña | Vacía en una instalación predeterminada de XAMPP |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Si DBeaver solicita el controlador MySQL, permite su descarga.
+4. Abre un editor SQL y ejecuta el contenido de [database/create_my_hello_kitty.sql](database/create_my_hello_kitty.sql):
 
-## License
+```sql
+CREATE DATABASE IF NOT EXISTS `my_hello_kitty`
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Actualiza la conexión en DBeaver.
+
+Si tu servidor usa otro puerto, usuario o contraseña, cambia esos mismos valores tanto en DBeaver como en el archivo `.env` local. Nunca subas el archivo `.env` a GitHub.
+
+## Crear las tablas y productos
+
+Después de crear la base de datos, vuelve a la terminal del proyecto y ejecuta:
+
+```powershell
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+La tienda quedará disponible en:
+
+```text
+http://127.0.0.1:8000
+```
+
+La migración crea las tablas de Laravel y `products`. El seeder agrega estos seis productos de demostración:
+
+- Mochila Kitty Pop
+- Buzo Pink Mood
+- Termo Sweet Day
+- Agenda Mini Dreams
+- Llavero Cherry Bow
+- Set de stickers Kawaii
+
+Para verlos en DBeaver, expande:
+
+```text
+my_hello_kitty → Tables → products
+```
+
+También puedes abrir un editor SQL y ejecutar:
+
+```sql
+USE my_hello_kitty;
+SELECT * FROM products;
+```
+
+## Verificación rápida
+
+Desde la carpeta del proyecto:
+
+```powershell
+php artisan test
+```
+
+El proyecto incluye pruebas para el catálogo y la ficha de detalle del producto.
+
+## Problemas frecuentes
+
+| Problema | Solución |
+| --- | --- |
+| `Connection refused` o error en el puerto 3306 | Inicia MySQL/MariaDB y confirma el puerto en `.env`. |
+| `Access denied for user root` | Escribe la contraseña correcta en `DB_PASSWORD` y en la conexión de DBeaver. |
+| No aparece la tabla `products` | Ejecuta `php artisan migrate --seed` y actualiza/refresca el esquema en DBeaver. |
+| Error por `APP_KEY` | Ejecuta `php artisan key:generate`. |
+| No se ven productos | Ejecuta otra vez `php artisan migrate --seed`; el seeder actualiza los seis productos de ejemplo. |
